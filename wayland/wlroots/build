@@ -3,8 +3,8 @@
 export DESTDIR="$1"
 
 meson \
-	--prefix=/usr \
-	-Dexamples=false \
+    --prefix=/usr \
+    -Dexamples=false \
     -Dlibcap=disabled \
     -Dlogind=disabled \
     -Dxcb-errors=disabled \
@@ -12,8 +12,8 @@ meson \
     -Dxcb-xkb=disabled \
     -Dxwayland=disabled \
     -Dx11-backend=disabled \
-	-Dfreerdp=disabled \
-	. build
+    -Dfreerdp=disabled \
+    . build
 
 ninja -C build
 ninja -C build install

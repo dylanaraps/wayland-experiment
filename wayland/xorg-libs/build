@@ -44,11 +44,11 @@ rmdir "$1/usr/share/pkgconfig"
 # Remove unneeded stuff.
 cd "$1"
 rm -rf /usr/include/X11/extensions/apple* \
-       /usr/include/X11/extensions/windows* \
-       /usr/lib/pkgconfig/apple* \
-       /usr/lib/pkgconfig/windows* \
-       /usr/share/X11/locale \
-       /usr/share/doc \
-       /usr/share/locale \
-       /usr/share/man \
-       /usr/share/util-macros
+    /usr/include/X11/extensions/windows* \
+    /usr/lib/pkgconfig/apple* \
+    /usr/lib/pkgconfig/windows* \
+    /usr/share/X11/locale \
+    /usr/share/doc \
+    /usr/share/locale \
+    /usr/share/man \
+    /usr/share/util-macros
