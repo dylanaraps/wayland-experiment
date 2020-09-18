@@ -1,0 +1,6 @@
+fontconfig
+libxkbcommon
+ncurses make
+python  make
+wayland
+wayland-protocols make

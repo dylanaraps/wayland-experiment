@@ -1,0 +1,24 @@
+#!/bin/sh -e
+
+# Disable building these.
+sed -i "s/BUILD_SPHINX_TRUE=/BUILD_SPHINX_TRUE='#'/"   configure
+sed -i "s/BUILD_SPHINX_FALSE='#'/BUILD_SPHINX_FALSE=/" configure
+sed -i 's/test perf//g' Makefile.in
+
+# XORG: Pulled in by --enable-xlib.
+./configure \
+    --prefix=/usr \
+    --disable-static \
+    --enable-tee \
+    --disable-gl \
+    --disable-xlib-xcb \
+    --disable-xcb \
+    --disable-xcb-shm \
+    --disable-xlib-xrender \
+    --enable-xlib \
+    --disable-trace \
+    --disable-valgrind \
+    --disable-gtk-doc-html
+
+make
+make DESTDIR="$1" install
