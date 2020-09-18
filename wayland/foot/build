@@ -1,10 +1,9 @@
 #!/bin/sh -e
 
-sh >/dev/tty
-# version detection is broken
+# Version detection is broken.
 rm -rf .git subprojects/*/.git
 
-# avoid scdoc dependency
+# Avoid scdoc dependency.
 sed -i "/subdir('doc')/d" meson.build
 
 export DESTDIR="$1"
@@ -12,7 +11,6 @@ export DESTDIR="$1"
 meson \
     --prefix=/usr \
     --buildtype=release \
-    -Db_lto=true \
     . output
 
 ninja -C output
