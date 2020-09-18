@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
 ./configure \
-	--prefix=/usr \
-	--disable-documentation \
+    --prefix=/usr \
+    --disable-documentation \
     --disable-dtd-validation
 
 make
