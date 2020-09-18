@@ -11,6 +11,12 @@ Goal: A Wayland environment absent of X11.
 Status: Not ready.
 
 
+TODO
+________________________________________________________________________________
+
+- Finalize dependencies.
+- etc.
+
 
 Signature Verification
 ________________________________________________________________________________
