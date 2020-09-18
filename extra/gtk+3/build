@@ -11,7 +11,6 @@ sed -i '/<atk-bridge.h>/d;/atk_bridge_adaptor_init/d' \
 sed -i 's/demos tests testsuite examples//' Makefile.am Makefile.in
 sed -i 's/docs m4macros/m4macros/'          Makefile.am Makefile.in
 
-sh >/dev/tty
 ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
