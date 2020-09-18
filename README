@@ -3,16 +3,10 @@
 ________________________________________________________________________________
 
 
-Official Repositories
+Wayland experiment
 ________________________________________________________________________________
 
-The official repositories for KISS Linux maintained by Dylan Araps.
-
-More information:
-
-    - https://k1ss.org
-    - https://k1ss.org/package-system
-    - https://repology.org/repository/kiss_main
+Goal: A Wayland environment absent of X11.
 
 
 Signature Verification
