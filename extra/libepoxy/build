@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+# Tests fail to build with Wayland.
+sed -i "/subdir('test')/d" meson.build
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --mandir=/usr/share/man \
+    -Dhas-dlvsym=false \
+    -Dx11=false \
+    . output
+
+ninja -C output
+ninja -C output install
