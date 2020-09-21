@@ -12,3 +12,8 @@ sed -i 's/perl //;s/xml2lst\.pl/xml2lst/' rules/Makefile.in
 
 make
 make DESTDIR="$1" install
+
+# Install XKB compose files which are usually
+# bundled with libX11 for some reason.
+cd libX11/nls
+./gen_compose "$1/usr/share/X11/locale"

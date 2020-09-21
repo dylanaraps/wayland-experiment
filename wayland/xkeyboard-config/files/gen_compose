@@ -1,18 +1,16 @@
 #!/bin/sh -e
 #
-# This bypasses the build system to grab the locale files for
+# This bypasses the build system to grab the compose files for
 # xkbcommon without requiring Xorg libraries be present.
 # Everything below is taken from nls/Makefile.
 
 export LC_CTYPE=C
 
-locale_dir=$1/usr/share/X11/locale
+locale_dir=$1
 
 mkdir -p \
     "$locale_dir/C" \
     "$locale_dir/en_US.UTF-8"
-
-cd nls
 
 for file in \
     compose.dir \

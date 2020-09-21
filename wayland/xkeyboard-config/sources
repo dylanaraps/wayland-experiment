@@ -1,2 +1,4 @@
 https://x.org/releases/individual/data/xkeyboard-config/xkeyboard-config-2.30.tar.bz2
-files/xml2lst rules
+https://x.org/releases/individual/lib/libX11-1.6.12.tar.bz2 libX11
+files/gen_compose libX11/nls
+files/xml2lst     rules
