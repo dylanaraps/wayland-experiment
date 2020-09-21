@@ -1,1 +1,2 @@
-../../.upstream/extra/libepoxy/depends
+mesa  make
+meson make
