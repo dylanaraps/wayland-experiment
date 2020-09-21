@@ -8,14 +8,12 @@ ________________________________________________________________________________
 
 Goal: A Wayland environment absent of X11.
 
-Status: Not ready.
 
-
-TODO
+Status
 ________________________________________________________________________________
 
-- Finalize dependencies.
-- etc.
+GTK+3, cairo and libepoxy must be built against the X11 libraries for Firefox.
+
 
 
 Signature Verification
