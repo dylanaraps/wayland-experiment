@@ -12,7 +12,7 @@ meson \
     -Djasper=false \
     -Dpng=true \
     -Ddocs=false \
-    -Dx11=false \
+    -Dx11=true \
     -Dman=false \
     -Dgio_sniffing=false \
     -Dinstalled_tests=false \
