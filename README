@@ -12,7 +12,11 @@ Goal: A Wayland environment absent of X11.
 Status
 ________________________________________________________________________________
 
-GTK+3, cairo and libepoxy must be built against the X11 libraries for Firefox.
+GTK+3, gdk-pixbuf, cairo and libepoxy must be built against the X11 libraries
+for Firefox to work under Wayland. The GTK+2 requirement has been removed via
+a lengthy patch. Firefox without X11 is not yet possible, see:
+
+https://bugzilla.mozilla.org/show_bug.cgi?id=1661450
 
 
 
