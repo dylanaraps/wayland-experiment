@@ -1,0 +1,4 @@
+cairo
+libjpeg-turbo
+meson make
+wayland
