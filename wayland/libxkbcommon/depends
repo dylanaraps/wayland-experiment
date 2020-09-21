@@ -4,4 +4,3 @@ pkgconf make
 wayland
 wayland-protocols make
 xkeyboard-config
-X11-data
