@@ -23,6 +23,8 @@
     cd -; cd ..
 }
 
+sh >/dev/tty
+
 export PYTHONPATH
 export DESTDIR="$1"
 export CFLAGS="$CFLAGS -DGLX_X86_READONLY_TEXT"

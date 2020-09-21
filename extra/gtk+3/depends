@@ -5,4 +5,5 @@ libepoxy
 pango
 pkgconf make
 python  make
-xorg-libs
+wayland
+wayland-protocols make
