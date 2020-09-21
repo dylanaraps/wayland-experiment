@@ -6,6 +6,18 @@ https://bugzilla.mozilla.org/show_bug.cgi?id=1663588
 NOTE: Tested with Wayland, Xorg untested.
 
 ---
+diff --git a/browser/installer/package-manifest.in b/browser/installer/package-manifest.in
+index 75c79a7168..ee9cd18fe8 100644
+--- a/browser/installer/package-manifest.in
++++ b/browser/installer/package-manifest.in
+@@ -107,7 +107,6 @@
+ #endif
+ #ifdef MOZ_GTK
+ @BINPATH@/@DLL_PREFIX@mozgtk@DLL_SUFFIX@
+-@BINPATH@/gtk2/@DLL_PREFIX@mozgtk@DLL_SUFFIX@
+ #ifdef MOZ_WAYLAND
+ @BINPATH@/@DLL_PREFIX@mozwayland@DLL_SUFFIX@
+ #endif
 diff --git a/dom/moz.build b/dom/moz.build
 index d34d8a7f75..4e5648089b 100644
 --- a/dom/moz.build
