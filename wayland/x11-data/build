@@ -31,7 +31,7 @@ do
             -e '/^[    ]*XCOMM[^a-zA-Z0-9_]/s/XCOMM/#/' \
             -e '/^[ ]*XHASH/s/XHASH/#/' \
             -e 's,X11_LOCALEDATADIR,/usr/share/X11/locale,g' \
-            -e '/\@\@$/s/\@\@$/\\/' \
+            -e '/\@\@$/s/\@\@$/\\/'
 
     < "$file.l1" \
     > "$file.l2" \
