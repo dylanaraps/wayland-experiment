@@ -1,3 +1,11 @@
+Removes the GTK2 build requirement. A little sloppy in places,
+will be cleaned up over the next couple of weeks. Based on a
+patch posted to Bugzilla here:
+
+https://bugzilla.mozilla.org/show_bug.cgi?id=1663588
+NOTE: Tested with Wayland, Xorg untested.
+
+---
 diff --git a/dom/moz.build b/dom/moz.build
 index d34d8a7f75..4e5648089b 100644
 --- a/dom/moz.build
@@ -441,8 +449,189 @@ index 55494b4d8c..822d3b88e3 100644
    static void SetXDisplay(XEvent& ev) {
      Display* display = mozilla::DefaultXDisplay();
 diff --git a/dom/plugins/ipc/PluginInstanceChild.cpp b/dom/plugins/ipc/PluginInstanceChild.cpp
-index 9d6c04dced..5621a55ef5 100644
-Binary files a/dom/plugins/ipc/PluginInstanceChild.cpp and b/dom/plugins/ipc/PluginInstanceChild.cpp differ
+index 9d6c04dced..b163c4c548 100644
+--- a/dom/plugins/ipc/PluginInstanceChild.cpp
++++ b/dom/plugins/ipc/PluginInstanceChild.cpp
+@@ -15,7 +15,7 @@
+ #include "gfx2DGlue.h"
+ #include "nsNPAPIPluginInstance.h"
+ #include "mozilla/gfx/2D.h"
+-#ifdef MOZ_X11
++#if 0
+ #  include "gfxXlibSurface.h"
+ #endif
+ #ifdef XP_WIN
+@@ -44,7 +44,7 @@ using namespace mozilla::layers;
+ using namespace mozilla::gfx;
+ using namespace mozilla::widget;
+ 
+-#ifdef MOZ_WIDGET_GTK
++#if 0
+ 
+ #  include <gtk/gtk.h>
+ #  include <gdk/gdkx.h>
+@@ -188,10 +188,10 @@ PluginInstanceChild::PluginInstanceChild(const NPPluginFuncs* aPluginIface,
+   mWindow.type = NPWindowTypeWindow;
+   mData.ndata = (void*)this;
+   mData.pdata = nullptr;
+-#if defined(MOZ_X11) && defined(XP_UNIX) && !defined(XP_MACOSX)
++#if 0 
+   mWindow.ws_info = &mWsInfo;
+   memset(&mWsInfo, 0, sizeof(mWsInfo));
+-#  ifdef MOZ_WIDGET_GTK
++#  if 1 
+   mWsInfo.display = nullptr;
+ #  else
+   mWsInfo.display = DefaultXDisplay();
+@@ -356,7 +356,7 @@ NPError PluginInstanceChild::NPN_GetValue(NPNVariable aVar, void* aValue) {
+   AutoStackHelper guard(this);
+ 
+   switch (aVar) {
+-#if defined(MOZ_X11)
++#if 0 
+     case NPNVToolkit:
+       *((NPNToolkitType*)aValue) = NPNVGtk2;
+       return NPERR_NO_ERROR;
+@@ -428,7 +428,7 @@ NPError PluginInstanceChild::NPN_GetValue(NPNVariable aVar, void* aValue) {
+         *static_cast<HWND*>(aValue) = mPluginWindowHWND;
+         return NPERR_NO_ERROR;
+       }
+-#elif defined(MOZ_X11)
++#elif 0 
+       NPError result;
+       CallNPN_GetValue_NPNVnetscapeWindow(static_cast<XID*>(aValue), &result);
+       return result;
+@@ -842,7 +842,7 @@ mozilla::ipc::IPCResult PluginInstanceChild::AnswerNPP_HandleEvent(
+   AssertPluginThread();
+   AutoStackHelper guard(this);
+ 
+-#if defined(MOZ_X11) && defined(DEBUG)
++#if 0 
+   if (GraphicsExpose == event.event.type)
+     PLUGIN_LOG_DEBUG(
+         ("  received drawable 0x%lx\n", event.event.xgraphicsexpose.drawable));
+@@ -899,7 +899,7 @@ mozilla::ipc::IPCResult PluginInstanceChild::AnswerNPP_HandleEvent(
+   }
+ #endif
+ 
+-#ifdef MOZ_X11
++#if 0
+   if (GraphicsExpose == event.event.type) {
+     // Make sure the X server completes the drawing before the parent
+     // draws on top and destroys the Drawable.
+@@ -1154,7 +1154,7 @@ mozilla::ipc::IPCResult PluginInstanceChild::AnswerNPP_SetWindow(
+   AssertPluginThread();
+   AutoStackHelper guard(this);
+ 
+-#if defined(MOZ_X11) && defined(XP_UNIX) && !defined(XP_MACOSX)
++#if 0 
+   NS_ASSERTION(mWsInfo.display, "We should have a valid display!");
+ 
+   // The minimum info is sent over IPC to allow this
+@@ -1250,14 +1250,14 @@ mozilla::ipc::IPCResult PluginInstanceChild::AnswerNPP_SetWindow(
+ #elif defined(MOZ_WIDGET_UIKIT)
+   // Don't care
+ #else
+-#  error Implement me for your OS
++//#  error Implement me for your OS
+ #endif
+ 
+   return IPC_OK();
+ }
+ 
+ bool PluginInstanceChild::Initialize() {
+-#ifdef MOZ_WIDGET_GTK
++#if 0
+   if (mWsInfo.display) {
+     // Already initialized
+     return true;
+@@ -2870,7 +2870,7 @@ bool PluginInstanceChild::CreateOptSurface(void) {
+                               ? SurfaceFormat::A8R8G8B8_UINT32
+                               : SurfaceFormat::X8R8G8B8_UINT32;
+ 
+-#ifdef MOZ_X11
++#if 0
+   Display* dpy = mWsInfo.display;
+   Screen* screen = DefaultScreenOfDisplay(dpy);
+   if (format == SurfaceFormat::X8R8G8B8_UINT32 &&
+@@ -2926,7 +2926,7 @@ bool PluginInstanceChild::MaybeCreatePlatformHelperSurface(void) {
+     return false;
+   }
+ 
+-#ifdef MOZ_X11
++#if 0
+   bool supportNonDefaultVisual = false;
+   Screen* screen = DefaultScreenOfDisplay(mWsInfo.display);
+   Visual* defaultVisual = DefaultVisualOfScreen(screen);
+@@ -3078,12 +3078,12 @@ bool PluginInstanceChild::EnsureCurrentBuffer(void) {
+ }
+ 
+ void PluginInstanceChild::UpdateWindowAttributes(bool aForceSetWindow) {
+-#if defined(MOZ_X11) || defined(XP_WIN)
++#if 0 
+   RefPtr<gfxASurface> curSurface =
+       mHelperSurface ? mHelperSurface : mCurrentSurface;
+ #endif  // Only used within MOZ_X11 or XP_WIN blocks. Unused variable otherwise
+   bool needWindowUpdate = aForceSetWindow;
+-#ifdef MOZ_X11
++#if 0
+   Visual* visual = nullptr;
+   Colormap colormap = 0;
+   if (curSurface && curSurface->GetType() == gfxSurfaceType::Xlib) {
+@@ -3182,7 +3182,7 @@ void PluginInstanceChild::PaintRectToPlatformSurface(const nsIntRect& aRect,
+   // We should not send an async surface if we're using direct rendering.
+   MOZ_ASSERT(!IsUsingDirectDrawing());
+ 
+-#ifdef MOZ_X11
++#if 0
+   {
+     NS_ASSERTION(aSurface->GetType() == gfxSurfaceType::Xlib,
+                  "Non supported platform surface type");
+@@ -3230,7 +3230,7 @@ void PluginInstanceChild::PaintRectToSurface(const nsIntRect& aRect,
+   // Render using temporary X surface, with copy to image surface
+   nsIntRect plPaintRect(aRect);
+   RefPtr<gfxASurface> renderSurface = aSurface;
+-#ifdef MOZ_X11
++#if 0
+   if (mIsTransparent && (GetQuirks() & QUIRK_FLASH_EXPOSE_COORD_TRANSLATION)) {
+     // Work around a bug in Flash up to 10.1 d51 at least, where expose event
+     // top left coordinates within the plugin-rect and not at the drawable
+@@ -3573,7 +3573,7 @@ bool PluginInstanceChild::ShowPluginFrame() {
+   NPRect r = {(uint16_t)rect.y, (uint16_t)rect.x, (uint16_t)rect.YMost(),
+               (uint16_t)rect.XMost()};
+   SurfaceDescriptor currSurf;
+-#ifdef MOZ_X11
++#if 0
+   if (mCurrentSurface->GetType() == gfxSurfaceType::Xlib) {
+     gfxXlibSurface* xsurf = static_cast<gfxXlibSurface*>(mCurrentSurface.get());
+     currSurf = SurfaceDescriptorX11(xsurf);
+@@ -3621,7 +3621,7 @@ bool PluginInstanceChild::ReadbackDifferenceRect(const nsIntRect& rect) {
+ 
+     // We can read safely from XSurface,SharedDIBSurface and Unsafe
+     // SharedMemory, because PluginHost is not able to modify that surface
+-#if defined(MOZ_X11)
++#if 0 
+   if (mBackSurface->GetType() != gfxSurfaceType::Xlib &&
+       !gfxSharedImageSurface::IsSharedImage(mBackSurface))
+     return false;
+@@ -3629,7 +3629,7 @@ bool PluginInstanceChild::ReadbackDifferenceRect(const nsIntRect& rect) {
+   if (!SharedDIBSurface::IsSharedDIBSurface(mBackSurface)) return false;
+ #endif
+ 
+-#if defined(MOZ_X11) || defined(XP_WIN)
++#if 0 
+   if (mCurrentSurface->GetContentType() != mBackSurface->GetContentType())
+     return false;
+ 
+@@ -3747,7 +3747,7 @@ mozilla::ipc::IPCResult PluginInstanceChild::RecvUpdateBackground(
+   if (!mBackground) {
+     // XXX refactor me
+     switch (aBackground.type()) {
+-#ifdef MOZ_X11
++#if 0
+       case SurfaceDescriptor::TSurfaceDescriptorX11: {
+         mBackground = aBackground.get_SurfaceDescriptorX11().OpenForeign();
+         break;
 diff --git a/dom/plugins/ipc/PluginInstanceChild.h b/dom/plugins/ipc/PluginInstanceChild.h
 index 479c060f91..a00c1229aa 100644
 --- a/dom/plugins/ipc/PluginInstanceChild.h
