@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+sh >/dev/tty
+
 # Version detection is broken.
 rm -rf .git subprojects/*/.git
 

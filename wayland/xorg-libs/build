@@ -2,53 +2,56 @@
 
 # Add install directory to default search paths.
 export CFLAGS="$CFLAGS -L$1/usr/lib -I$1/usr/include"
-export CXXFLAGS="$CXXFLAGS -L$1/usr/lib -I$1/usr/include"
-export PKG_CONFIG_PATH=$1/usr/lib/pkgconfig:$1/usr/share/pkgconfig
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$1/usr/lib/pkgconfig
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$1/usr/share/pkgconfig
 
 sed -i 's/pthread-stubs //' \
     libxcb/configure
 
 sed -i "/^XCBPROTO_XCBINCLUDEDIR/s|=.*|= $1/usr/share/xcb|" \
-    libxcb/Makefile.in libxcb/src/Makefile.in
+    libxcb/Makefile.in \
+    libxcb/src/Makefile.in
 
 sed -i "/^XCBPROTO_XCBPYTHONDIR/s|=.*|= $1/usr/lib/python3.8/site-packages|" \
-    libxcb/Makefile.in libxcb/src/Makefile.in
+    libxcb/Makefile.in \
+    libxcb/src/Makefile.in
 
 while read -r _ pkg; do
-    cd "${pkg:-.}"
+    [ -d "$pkg" ] && (
+        cd "$pkg"
 
-    [ "$pkg" ] || {
-        cd "$OLDPWD"
-        continue
-    }
+        ./configure \
+            --prefix=/usr \
+            --with-keysymdefdir="$1/usr/include/X11" \
+            --disable-static \
+            --disable-nls
 
-    ./configure \
-        --prefix=/usr \
-        --with-keysymdefdir="$1/usr/include/X11" \
-        --disable-static \
-        --disable-nls
+        make
+        make DESTDIR="$1" install
 
-    make
-    make DESTDIR="$1" install
-
-    # Delete libtool files or it'll get mad.
-    find "$1" -name \*.la -delete
-
-    cd "$OLDPWD"
+        # Delete libtool files or it'll get mad.
+        find "$1" -name \*.la -delete
+    )
 done < sources
 
+cd "$1"
+
 # Fix xorgproto location.
-mv -f "$1/usr/share/pkgconfig/"*.pc "$1/usr/lib/pkgconfig"
-rmdir "$1/usr/share/pkgconfig"
+mv -f \
+    usr/share/pkgconfig/*.pc \
+    usr/lib/pkgconfig
+
+rm -fr \
+    usr/share/pkgconfig
 
 # Remove unneeded stuff.
-cd "$1"
-rm -rf /usr/include/X11/extensions/apple* \
-    /usr/include/X11/extensions/windows* \
-    /usr/lib/pkgconfig/apple* \
-    /usr/lib/pkgconfig/windows* \
-    /usr/share/X11/locale \
-    /usr/share/doc \
-    /usr/share/locale \
-    /usr/share/man \
-    /usr/share/util-macros
+rm -fr \
+    usr/include/X11/extensions/apple* \
+    usr/include/X11/extensions/windows* \
+    usr/lib/pkgconfig/apple* \
+    usr/lib/pkgconfig/windows* \
+    usr/share/doc \
+    usr/share/locale \
+    usr/share/X11/locale \
+    usr/share/man \
+    usr/share/util-macros
