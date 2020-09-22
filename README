@@ -6,7 +6,7 @@ ________________________________________________________________________________
 Wayland experiment
 ________________________________________________________________________________
 
-Goal: A Wayland environment absent of X11.
+Goal: The KISS official repositories using Wayland while absent of X11.
 
 
 Status
@@ -18,6 +18,14 @@ a lengthy patch. Firefox without X11 is not yet possible, see:
 
 https://bugzilla.mozilla.org/show_bug.cgi?id=1661450
 
+
+X11 software that is also used for Wayland
+________________________________________________________________________________
+
+- libxkbcommon
+- libpciaccess
+- pixman
+- xkeyboard-config
 
 
 Signature Verification
