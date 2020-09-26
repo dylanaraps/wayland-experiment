@@ -1,0 +1,48 @@
+#!/bin/sh -e
+
+# version detection is broken
+rm -rf .git subprojects/*/.git
+
+# avoid scdoc dependency
+sed -i "/subdir('doc')/d" meson.build
+
+export CFLAGS="$CFLAGS -O3 -Wno-missing-profile -fno-plt"
+export CC=/usr/bin/gcc
+export DESTDIR="$1"
+
+mkdir -p bld/release
+cd bld/release
+
+meson \
+    --prefix=/usr \
+    --buildtype=release \
+    -Db_lto=true \
+    ../..
+
+# generate pgo data
+{
+    meson configure \
+        -Db_pgo=generate \
+
+    ninja
+
+    set -- \
+        "$OLDPWD/scripts/generate-alt-random-writes.py" \
+        --scroll \
+        --scroll-region \
+        --colors-regular \
+        --colors-bright \
+        --colors-rgb \
+        .pgotmp
+
+    ./foot \
+        --config=/dev/null \
+        --term=xterm \
+        sh -c "$* && cat .pgotmp"
+}
+
+meson configure \
+    -Db_pgo=use
+
+ninja
+ninja install
