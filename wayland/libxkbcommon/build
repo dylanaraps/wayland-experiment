@@ -8,6 +8,7 @@ meson \
     -Denable-x11=false \
     -Denable-xkbregistry=false \
     -Denable-docs=false \
+    -Ddefault_library=both \
     . output
 
 ninja -C output
