@@ -8,7 +8,6 @@ sed -i 's/test perf//g' Makefile.in
 # XORG: Pulled in by --enable-xlib.
 ./configure \
     --prefix=/usr \
-    --disable-static \
     --enable-tee \
     --disable-gl \
     --disable-xlib-xcb \
