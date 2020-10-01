@@ -2,3 +2,4 @@ glib
 libpng
 meson   make
 pkgconf make
+xorg-libs
