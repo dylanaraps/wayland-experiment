@@ -1,4 +1,8 @@
 #!/bin/sh -e
+#
+# This is a statically linked, PGO'd/LTO'd foot.
+
+patch -p1 < static.patch
 
 # version detection is broken
 rm -rf .git subprojects/*/.git
@@ -6,7 +10,7 @@ rm -rf .git subprojects/*/.git
 # avoid scdoc dependency
 sed -i "/subdir('doc')/d" meson.build
 
-export CFLAGS="$CFLAGS -O3 -Wno-missing-profile -fno-plt"
+export CFLAGS="$CFLAGS -O3 -Wno-missing-profile -fno-plt -static -l:libffi.a"
 export CC=/usr/bin/gcc
 export DESTDIR="$1"
 

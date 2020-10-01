@@ -1,7 +1,8 @@
-fontconfig
-libxkbcommon
-ncurses make
-pixman
-python  make
-wayland
+fontconfig        make
+libxkbcommon      make
+meson             make
+ncurses           make
+pixman            make
+python            make
+wayland           make
 wayland-protocols make
