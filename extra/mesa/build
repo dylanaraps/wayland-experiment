@@ -23,8 +23,6 @@
     cd -; cd ..
 }
 
-sh >/dev/tty
-
 export PYTHONPATH
 export DESTDIR="$1"
 export CFLAGS="$CFLAGS -DGLX_X86_READONLY_TEXT"
@@ -42,6 +40,7 @@ meson \
     --buildtype=release \
     -Dplatforms=drm,wayland \
     -Dglx=disabled \
+    -Dzstd=false \
     . output
 
 ninja -C output
