@@ -38,8 +38,7 @@ meson \
     --mandir=/usr/share/man \
     --localstatedir=/var \
     --buildtype=release \
-    -Dplatforms=drm,wayland \
-    -Dglx=disabled \
+    -Dplatforms=drm,wayland,x11 \
     -Dzstd=false \
     . output
 
